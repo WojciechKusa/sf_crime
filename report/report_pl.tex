@@ -64,45 +64,73 @@
 
 \section{Wprowadzenie}
 
-Celem projektu było stworzenie oprogramowania pozwalającego dokonać klasyfikacji przestępstw na podstawie danych czasoprzestrzennych z raportów policyjnych dla miasta San Francisco w Stanach Zjednoczonych. 
+Celem projektu było stworzenie oprogramowania pozwalającego dokonać klasyfikacji przestępstw na podstawie danych czasoprzestrzennych z raportów policyjnych dla miasta San Francisco w Stanach Zjednoczonych. Pełen opis projektu, wraz z danymi wejściowymi znajduje się na portalu kaggle, pod adresem: \url{www.kaggle.com/c/sf-crime/}.
 
 
-\section{Dane}
+\section{Dane} \label{sec:data}
 
 Zbiór danych zawiera incydenty zgłoszone policji w San Francisco pomiędzy 01.01.2003r. a 13.05.2015r.. Podzielony jest na dwie podgrupy (prawie równoliczne, w każdej po około 850 tysięcy elementów) :
 \begin{itemize}
-\item zbiór treningowy - zawierający zgłoszenia z tygodni parzystych,
+\item zbiór treningowy -- zawierający zgłoszenia z tygodni parzystych,
 
-\item zbiór testowy -  zawierający zgłoszenia z tygodni nieparzystych.
+\item zbiór testowy --  zawierający zgłoszenia z tygodni nieparzystych.
 \end{itemize} 
 
 Przykładowe wiersze danych treningowych znajdują się na Rysunku \ref{fig:train_data}. Dane składają się z następujących pól:
 
 \begin{itemize}
-\item Dates - znacznik czasu przestępstwa
-\item DayOfWeek - dzień tygodnia
-\item PdDistrict - nazwa departamentu policji odbierającego zgłoszenie
-\item Address - przybliżony adres przestępstwa
-\item X - długość geograficzna
-\item Y - szerokość geograficzna
-\item Category - kategoria przestępstwa (tylko dla zbioru treingowego). Zmienna, którą należało przewidzieć
-\item Descript - szczegółowy opis przestępstwa (tylko dla zbioru treingowego)
-\item Resolution - jaki był wynik działania policji (tylko dla zbioru treingowego)
+\item Dates -- znacznik czasu przestępstwa
+\item DayOfWeek -- dzień tygodnia
+\item PdDistrict -- nazwa departamentu policji odbierającego zgłoszenie
+\item Address -- przybliżony adres przestępstwa
+\item X -- długość geograficzna
+\item Y -- szerokość geograficzna
+\item Category -- kategoria przestępstwa (tylko dla zbioru treingowego). Jest to zmienna, którą należało przewidzieć w wyniku działania algorytmu
+\item Descript -- szczegółowy opis przestępstwa (tylko dla zbioru treingowego)
+\item Resolution -- jaki był wynik działania policji (tylko dla zbioru treingowego)
 
 \end{itemize}
 
 \begin{figure}[!h]
   \centering
     \includegraphics[width=0.95\textwidth]{images/train_data.png}
-  \caption{Przykładowe dane treningowe. Źródło: \protect\url{https://www.kaggle.com/c/sf-crime/data} }
+  \caption{Przykładowe dane treningowe. Źródło: \protect\url{https://www.kaggle.com/c/sf-crime/data} } \label{fig:train_data}
 \end{figure}
 
 
 
 \subsection{Wstępna analiza zbioru treningowego}
- tutaj rysunki
+
+Na rysunku \ref{fig:sf_districts} znajduje się mapa San Francisco z zaznaczpnymi wszystkimi przestępstami podzielonymi ze względu na posterunek odbierający zgłoszenie.
+
+
+\begin{figure}[!h]
+  \centering
+    \includegraphics[width=0.95\textwidth]{images/sf_districts}
+  \caption{Przestępstwa podzielone ze względu na posterunek odbierający zgłoszenie.} \label{fig:sf_districts}
+\end{figure}
+
 
 \subsection{Zastosowane deskryptory}
+
+Dane poddane zostały preprocessingowi celem poprawy brakujących rekordów, a następnie, poza podstawowymi zmiennymi przedstawionymi w sekcji \ref{sec:data}, przygotowano dodatkowe deskryptory mające pomóc wytrenować model. Poniżej zostały opisane najważniejsze z nich, mające istotny wpływ na poprawę działania modelu:
+
+\begin{itemize}
+\item $Dates.Hours \cdot 60 + Dates.Minutes$ - Liczba z zakreu {0, 1440} opisująca, w której minucie dnia zostało dokonane zgłoszenie
+
+\item $X \cdot Y$ - wskazuje na nieliniową korelację długości i szerokości geograficznej
+
+\item $X + Y$ - jak wyżej, zmienna wskazująca na korelację długości i szerokości geograficznej
+
+\item informacja czy przestępstwo zostało dokonane na skrzyżowaniu / rogu ulicy - wyciągnięta ze zmiennej Address
+
+\item informacja czy przestępstwo zostało dokonane w bloku - wyciągnięta ze zmiennej Address
+
+\item $DayOfWeek + Dates.Hour$  - powiązuje godzinę zdarzenia z dniem tygodnia
+
+\item $DayOfWeek \cdot Dates.Hour$ -  jak wyżej, powiązuje godzinę zdarzenia z dniem tygodnia
+
+\end{itemize}
 
 
 \section{Zastosowane algorytmy}
@@ -113,11 +141,41 @@ Przykładowe wiersze danych treningowych znajdują się na Rysunku \ref{fig:trai
 
 \section{Implementacja}
 
-kilka słów o użytych bibliotekach
+Kody źródłowe zaimplementowanych modeli znajdują się w repozytorium on-line pod adresem \url{www.github.com/WojciechKusa/sf_crime}. \\
 
-\section{Uzyskane wyniki}
+Model wykorzystujący GLM zaimplementowany został w języku R z wykorzystaniem bibliotek MASS, readr, rpart oraz caret. Do ostatecznego modelu wzięte zostały następujące zmienne:
+
+\begin{itemize}
+\item $PdDistrict$
+
+\item $X $
+\item $Y $
+\item $X \cdot Y$
+\item $X + Y$ 
+\item $DayOfWeek$
+\item $Dates.Year $
+\item $Dates.Month $
+\item $Dates.Hour $
+\item $Dates.Hours \cdot 60 + Dates.Minutes$ 
+\item $DayOfWeek + Dates.Hour $
+\item $DayOfWeek \cdot Dates.Hour $
+
+\item $AddType $
+
+\end{itemize}
 
 
+
+\section{Ewaluacja oraz wyniki}
+
+\subsection{Ocena modeli}
+
+Ocena modeli dokonywana była na podstawie wielo-klasowej straty logarytmicznej (ang. \textit{multi-class logarithmic loss}). Dane zawierały prawdopodobieństwa wystąpienia danego przestępstwa przy podanych danych czasoprzestrzennych. \\
+
+\subsection{Uzyskane wyniki}
+
+
+W przypadku zastosowania modelu GLM uzyskany wynik to 2.54389 punkta co na dzień 24.01.2016r. dało 314 miejsce na 1200 uczestników. Dla modelu RF otrzymano wynik 5.70246 co plasuje go na 889 miejscu. Wyniki te można uznać za satysfakcjonując gdy weźmie się pod uwagę fakt, że najlepszy aktualnie wynik to 2.05079 a pierwsze 900 rezultatów to wyniki poniżej 10 punktów.\\
 
 
 \section{Podsumowanie}
