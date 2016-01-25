@@ -13,15 +13,13 @@ start = time.time()
 # Wczytujemy dane (pomijamy kolumny: Descript, Resolution, Address)
 train = pd.read_csv('train.csv', parse_dates = ['Dates'], index_col = False)
 test = pd.read_csv('test.csv', parse_dates = ['Dates'], index_col = False)
-
 '''
-plt.figure()
-fig = train['Category'].value_counts().plot(kind='barh', figsize=(18,10), color='c').get_figure()
-fig.savefig('categories.png')
+ax = sns.countplot(x = train["Category"])
+ax.set(xlabel = 'Wykroczenie', ylabel = 'Liczba wystąpień')
+for item in ax.get_xticklabels():
+    item.set_rotation(90)
 
-plt.figure()
-fig2 = train['DayOfWeek'].value_counts().plot(kind='bar', figsize=(15,10), color='c').get_figure();
-fig2.savefig('days.png')
+savefig('categories.png')
 '''
 
 # Z daty zachowujemy jedynie godzinę i miesiac
@@ -45,12 +43,6 @@ test['Corner'] = test['Address'].str.contains('/').map(int)
 train['Block'] = train['Address'].str.contains('Block').map(int)
 test['Block'] = test['Address'].str.contains('Block').map(int)
 
-'''
-ax = sns.countplot(x = train["PdDistrict"])
-ax.set(xlabel = 'Departament', ylabel = 'Liczba przestępstw')
-savefig('district.png')
-'''
-
 # Przypisuje posterunkom wartosci numeryczne 0-N
 districtEncoder = LabelEncoder()
 train['PdDistrict'] = districtEncoder.fit_transform(train['PdDistrict'])
@@ -65,6 +57,26 @@ test['DayOfWeek'] = dayEncoder.fit_transform(test['DayOfWeek'])
 categoryEncoder = LabelEncoder()
 train['Category'] = categoryEncoder.fit_transform(train['Category'])
 
+
+categories = categoryEncoder.classes_
+categories = [(name[0:4] + '.') for name in categories]
+all_cats = [train[train.Category == cat].Corner.value_counts().reindex(range(2)) for cat in range(39)]
+
+'''
+import matplotlib.pyplot as plt
+
+output = [0] * 39
+for i in range(39):
+    output[i] = all_cats[i][1] / all_cats[i][0] * 100
+
+fig = plt.figure()
+plt.title('Odsetek wykroczeń popełnianych na skrzyżowaniach do ogólnej liczby wykroczeń w danej kategorii.')
+plt.bar(range(39), output)
+plt.ylabel('Liczba zgłoszeń')
+plt.xticks(range(39), categories, rotation='vertical')
+fig.savefig('corner.png')
+'''
+
 learnColumns = list(train.columns.values)
 skipColumns = ['Dates', 'Descript', 'Resolution', 'Address']
 skipTestColumns = ['Dates', 'Address']
@@ -77,7 +89,7 @@ for column in skipTestColumns:
     test.pop(column)
 
 learnColumns.remove('Category')
-
+'''
 # Algorytm Random Forest (n_estimators = liczba drzew w lesie)
 clf = RandomForestClassifier()
 clf.set_params(n_estimators = 52)
@@ -114,3 +126,4 @@ with open('output.csv', 'w', newline='') as output:
 
 print('Time: ' + str(time.time() - start) + ' s')
 
+'''
