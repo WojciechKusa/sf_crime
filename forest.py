@@ -51,7 +51,7 @@ ax.set(xlabel = 'Departament', ylabel = 'Liczba przestępstw')
 savefig('district.png')
 '''
 
-# Kodujemy posterunki na inty
+# Przypisuje posterunkom wartosci numeryczne 0-N
 districtEncoder = LabelEncoder()
 train['PdDistrict'] = districtEncoder.fit_transform(train['PdDistrict'])
 test['PdDistrict'] = districtEncoder.fit_transform(test['PdDistrict'])
@@ -61,7 +61,7 @@ dayEncoder = LabelEncoder()
 train['DayOfWeek'] = dayEncoder.fit_transform(train['DayOfWeek'])
 test['DayOfWeek'] = dayEncoder.fit_transform(test['DayOfWeek'])
 
-# Oraz dla kategorii (tego encodera używać będziemy jeszcze do odwrotnej transformacji)
+# Oraz dla kategorii (tego encodera uzywac bedziemy jeszcze do odwrotnej transformacji)
 categoryEncoder = LabelEncoder()
 train['Category'] = categoryEncoder.fit_transform(train['Category'])
 
