@@ -13,6 +13,7 @@ start = time.time()
 # Wczytujemy dane (pomijamy kolumny: Descript, Resolution, Address)
 train = pd.read_csv('train.csv', parse_dates = ['Dates'], index_col = False)
 test = pd.read_csv('test.csv', parse_dates = ['Dates'], index_col = False)
+
 '''
 ax = sns.countplot(x = train["Category"])
 ax.set(xlabel = 'Wykroczenie', ylabel = 'Liczba wystąpień')
@@ -39,6 +40,14 @@ test['Time'] = test['Dates'].dt.hour * 60 + test['Dates'].dt.minute
 train['Corner'] = train['Address'].str.contains('/').map(int)
 test['Corner'] = test['Address'].str.contains('/').map(int)
 
+
+thefts = train[train.Category == 'VEHICLE THEFT'].Corner.value_counts().reindex(range(2))
+print(str(thefts[0] + thefts[1]))
+
+thefts = train[train.Category == 'RECOVERED VEHICLE'].Corner.value_counts().reindex(range(2))
+print(str(thefts[0] + thefts[1]))
+
+
 # Informacja, czy jest w apartamencie
 train['Block'] = train['Address'].str.contains('Block').map(int)
 test['Block'] = test['Address'].str.contains('Block').map(int)
@@ -57,22 +66,21 @@ test['DayOfWeek'] = dayEncoder.fit_transform(test['DayOfWeek'])
 categoryEncoder = LabelEncoder()
 train['Category'] = categoryEncoder.fit_transform(train['Category'])
 
-
+'''
 categories = categoryEncoder.classes_
 categories = [(name[0:4] + '.') for name in categories]
 all_cats = [train[train.Category == cat].Corner.value_counts().reindex(range(2)) for cat in range(39)]
 
-'''
 import matplotlib.pyplot as plt
 
 output = [0] * 39
 for i in range(39):
-    output[i] = all_cats[i][1] / all_cats[i][0] * 100
+    output[i] = all_cats[i][1] / (all_cats[i][0] + all_cats[i][1]) * 100
 
 fig = plt.figure()
 plt.title('Odsetek wykroczeń popełnianych na skrzyżowaniach do ogólnej liczby wykroczeń w danej kategorii.')
 plt.bar(range(39), output)
-plt.ylabel('Liczba zgłoszeń')
+plt.ylabel('Odsetek zgłoszeń')
 plt.xticks(range(39), categories, rotation='vertical')
 fig.savefig('corner.png')
 '''
@@ -89,7 +97,7 @@ for column in skipTestColumns:
     test.pop(column)
 
 learnColumns.remove('Category')
-'''
+
 # Algorytm Random Forest (n_estimators = liczba drzew w lesie)
 clf = RandomForestClassifier()
 clf.set_params(n_estimators = 52)
@@ -125,5 +133,3 @@ with open('output.csv', 'w', newline='') as output:
 
 
 print('Time: ' + str(time.time() - start) + ' s')
-
-'''
