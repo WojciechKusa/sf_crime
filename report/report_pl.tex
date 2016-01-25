@@ -105,7 +105,7 @@ Przykładowe wiersze danych treningowych znajdują się na Rysunku \ref{fig:trai
 
 \subsection{Wstępna analiza zbioru treningowego}
 
-Zbiór treningowy zawiera ponad 878 tys. zgłoszeń z okresu od 1 stycznia 2003r. do 13 maja 2015r. Przestępstwa pogrupowane zostały w 39 kategorii, których liczności przedstawiono na rysunku \ref{fig:categories}. Większość zdarzeń zaliczona została do kategorii \textit{Larency / Theft} (ang. kradzież), \textit{Assault} (ang. napaść) i \textit{Drug / Narcotic} (ang. narkotyki) oraz grup gromadzących pozostałe zdarzenia (\textit{Non-Criminal} oraz \textit{Other Offences}). 
+Zbiór treningowy zawiera ponad 878 tys. zgłoszeń z okresu od 1 stycznia 2003r. do 13 maja 2015r. Przestępstwa pogrupowane zostały na 39 kategorii, których liczności przedstawiono na Rysunku \ref{fig:categories}. Większość zdarzeń zaliczona została do kategorii \textit{Larency / Theft} (ang. kradzież), \textit{Assault} (ang. napaść) i \textit{Drug / Narcotic} (ang. narkotyki) oraz grup gromadzących pozostałe zdarzenia (\textit{Non-Criminal} oraz \textit{Other Offences}).  \\
 
 \begin{figure}[!h]
   \centering
@@ -113,7 +113,7 @@ Zbiór treningowy zawiera ponad 878 tys. zgłoszeń z okresu od 1 stycznia 2003r
   \caption{Zgłoszenia podzielone według przypisanej kategorii.} \label{fig:categories}
 \end{figure}
 
-Podczas analizy zbioru danych znaleziono silną zależność pomiędzy godziną a liczbą przestępstw: najmniej zgłoszeń odnotowano w godzinach 3:00 -- 7:00, zaś najniebezpieczniejsze są godziny 15:00 -- 20:00 (rysunek \ref{fig:hours}). Ponadto zauważono, że rozkład zgłoszeń w czasie różni się w zależności od wybranej kategorii. Przykładem mogą być rozkłady godzinne zgłoszeń związanych z prowadzeniem po spożyciu alkoholu oraz przestępstwa narkotykowe: te pierwsze zdarzają się głównie pomiędzy godziną 20:00 a 3:00, zaś te drugie pomiędzy 12:00 a 20:00. W związku z tym prawdopodobieństwo, że przestępstwo popełnione około godziny 16 jest związane z alkoholem jest dużo mniejsze, niż szansa jego związku z narkotykami. Na rysunkach \ref{fig:crimes_per_hour_1} -- \ref{fig:crimes_per_hour_6} przedstawiono sześć przykładowych rozkładów. 
+Podczas analizy zbioru danych znaleziono silną zależność pomiędzy godziną a liczbą przestępstw: najmniej zgłoszeń odnotowano w godzinach 3:00 -- 7:00, zaś najniebezpieczniejsze są godziny 15:00 -- 20:00 (Rysunek \ref{fig:hours}). Ponadto zauważono, że rozkład zgłoszeń w czasie różni się w zależności od wybranej kategorii. Przykładem mogą być rozkłady godzinne zgłoszeń związanych z prowadzeniem po spożyciu alkoholu oraz przestępstwa narkotykowe: te pierwsze zdarzają się głównie pomiędzy godziną 20:00 a 3:00, zaś te drugie pomiędzy 12:00 a 20:00. W związku z tym prawdopodobieństwo, że przestępstwo popełnione około godziny 16 jest związane z alkoholem jest dużo mniejsze, niż szansa jego związku z narkotykami. Na Rysunkach \ref{fig:crimes_per_hour_1} -- \ref{fig:crimes_per_hour_6} przedstawiono sześć przykładowych rozkładów.  \\
 
 \begin{figure}[!h]
   \centering
@@ -122,7 +122,7 @@ Podczas analizy zbioru danych znaleziono silną zależność pomiędzy godziną 
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
    \begin{subfigure}{0.48\linewidth}
    \centering
@@ -169,7 +169,7 @@ Podczas analizy zbioru danych znaleziono silną zależność pomiędzy godziną 
 \caption{Przykładowe zależności pomiędzy liczbą zgłoszeń a godziną.} 
 \end{figure}
 
-Na podstawie kolumny \textit{Address} (zawierającej przybliżony adres zgłoszenia) ustalono, czy wykroczenie miało miejsce na skrzyżowaniu dwóch ulic. Okazuje się, że niektóre z przestępstw (podejrzane zachowanie, prostytucja, jazda pod wpływem alkoholu czy sprzedaż narkotyków) są zazwyczaj powiązane ze skrzyżowaniami (w przypadku prostytucji około 80\% zanotowanych przypadków miało miejsce na skrzyżowaniach). Wysoki odsetek zatrzymań za jazdę pod wpływem alkoholu na rogu ulic związany jest zapewne z rozmieszczeniem patroli policyjnych. Dane dla wszystkich przestępstw zamieszczono na wykresie \ref{fig:corner}.
+Na podstawie kolumny \textit{Address} (zawierającej przybliżony adres zgłoszenia) ustalono, czy wykroczenie miało miejsce na skrzyżowaniu dwóch ulic. Okazuje się, że niektóre z przestępstw (podejrzane zachowanie, prostytucja, jazda pod wpływem alkoholu czy sprzedaż narkotyków) są zazwyczaj powiązane ze skrzyżowaniami (w przypadku prostytucji około 80\% zanotowanych przypadków miało miejsce na skrzyżowaniach). Wysoki odsetek zatrzymań za jazdę pod wpływem alkoholu na rogu ulic związany jest zapewne z rozmieszczeniem patroli policyjnych. Dane dla wszystkich przestępstw zamieszczono na wykresie \ref{fig:corner}. \\
 
 \begin{figure}[!h]
   \centering
@@ -177,7 +177,7 @@ Na podstawie kolumny \textit{Address} (zawierającej przybliżony adres zgłosze
   \caption{Odsetek wykroczeń popełnianych na skrzyżowaniach do ogólnej liczby wykroczeń w danej kategorii.} \label{fig:corner}
 \end{figure}
 
-Na rysunku \ref{fig:sf_districts} znajduje się mapa San Francisco z zaznaczpnymi wszystkimi przestępstami podzielonymi ze względu na posterunek odbierający zgłoszenie.
+Na rysunku \ref{fig:sf_districts} znajduje się mapa San Francisco z zaznaczpnymi wszystkimi przestępstami podzielonymi ze względu na posterunek odbierający zgłoszenie. \\
 
 \begin{figure}[!h]
   \centering
@@ -188,7 +188,7 @@ Na rysunku \ref{fig:sf_districts} znajduje się mapa San Francisco z zaznaczpnym
 
 \subsection{Zastosowane deskryptory}
 
-Wstępna analiza zbioru treningowego pozwoliła wykluczyć z dalszej pracy następujące kolumny: \textit{Address} (z którego wyciągnięto tylko informację o skrzyżowaniu), \textit{Dates} (podzielono na rok, miesiąc, godzinę i minutę dnia), \textit{Resolution} oraz \textit{Descript} (kolumny zawierają w żaden sposób nieusystematyzowany tekst).
+Wstępna analiza zbioru treningowego pozwoliła wykluczyć z dalszej pracy następujące kolumny: \textit{Address} (z którego wyciągnięto tylko informację o skrzyżowaniu), \textit{Dates} (podzielono na rok, miesiąc, godzinę i minutę dnia), \textit{Resolution} oraz \textit{Descript} (kolumny zawierają w żaden sposób nieusystematyzowany tekst). \\
 
 Dane poddane zostały preprocessingowi celem poprawy brakujących rekordów, a następnie, poza podstawowymi zmiennymi przedstawionymi w sekcji \ref{sec:data}, przygotowano dodatkowe deskryptory mające pomóc wytrenować model. Poniżej zostały opisane najważniejsze z nich, mające istotny wpływ na poprawę działania modelu:
 
@@ -209,22 +209,29 @@ Dane poddane zostały preprocessingowi celem poprawy brakujących rekordów, a n
 
 \end{itemize}
 
+\clearpage
 
 \section{Zastosowane algorytmy}
 \subsection{Lasy losowe - Random Forest}
 
 \subsection{Generalized Linear Model}
 
+Uogólniony model liniowy (ang. \textit{Generalized Linear Model, GLM}) jest rozszerzeniem zwykłej regresji liniowej pozwalającej na modelowanie zmiennych posiadających inny niż normalny rozkład błędu. GLM zezwala aby model liniowy był skorelowany z odpowiedzią poprzez funkcję łączącą (ang. \textit{link function}) oraz wielkość wariancji dla każdego pomiaru być funkcją jego przewidywanej wartości. \\
+
+Do klasyfikacji przestępstw wybrano dwumianowy rozkład błędu liczący ilość wystąpień danego przestępstwa na zasadzie binarnej {tak, nie}. Jako link function zastosowano funkcję logitową. \\
 
 \section{Implementacja}
 
-Kody źródłowe zaimplementowanych modeli znajdują się w repozytorium on-line pod adresem \url{www.github.com/WojciechKusa/sf_crime}. \\
+Kody źródłowe zaimplementowanych modeli znajdują się w repozytorium on-line pod adresem \url{www.github.com/WojciechKusa/sf_crime}. 
+
+\subsection{Lasy losowe - Random Forest}
+
+\subsection{Generalized Linear Model}
 
 Model wykorzystujący GLM zaimplementowany został w języku R z wykorzystaniem bibliotek MASS, readr, rpart oraz caret. Do ostatecznego modelu wzięte zostały następujące zmienne:
 
 \begin{itemize}
 \item $PdDistrict$
-
 \item $X $
 \item $Y $
 \item $X \cdot Y$
@@ -232,15 +239,13 @@ Model wykorzystujący GLM zaimplementowany został w języku R z wykorzystaniem 
 \item $DayOfWeek$
 \item $Dates.Year $
 \item $Dates.Month $
-\item $Dates.Hour $
+\item $Dates.Hours $
 \item $Dates.Hours \cdot 60 + Dates.Minutes$ 
 \item $DayOfWeek + Dates.Hour $
 \item $DayOfWeek \cdot Dates.Hour $
-
-\item $AddType $
+\item $AddressType $ -- informacja czy zdarzenie miało miejsce na skrzyżowniu czy w bloku
 
 \end{itemize}
-
 
 
 \section{Ewaluacja oraz wyniki}
@@ -252,11 +257,13 @@ Ocena modeli dokonywana była na podstawie wielo-klasowej straty logarytmicznej 
 \subsection{Uzyskane wyniki}
 
 
-W przypadku zastosowania modelu GLM uzyskany wynik to 2.54389 punkta co na dzień 24.01.2016r. dało 314 miejsce na 1200 uczestników. Dla modelu RF otrzymano wynik 5.70246 co plasuje go na 889 miejscu. Wyniki te można uznać za satysfakcjonując gdy weźmie się pod uwagę fakt, że najlepszy aktualnie wynik to 2.05079 a pierwsze 900 rezultatów to wyniki poniżej 10 punktów.\\
+W przypadku zastosowania modelu GLM uzyskany wynik to 2.51443 punkta co na dzień 24.01.2016r. dało 267 miejsce na około 1200 uczestników. Dla modelu RF otrzymano wynik 5.70246 co plasuje go na 889 miejscu. Wyniki te można uznać za satysfakcjonujące gdy weźmie się pod uwagę fakt, że najlepszy aktualnie wynik to 2.05079 a pierwsze 900 rezultatów to wyniki poniżej 10 punktów. Wynik dla rozwiązania losowego to 26 punktów. \\
 
 
 \section{Podsumowanie}
 
+Dla zastosowanych modeli GLM i RF uzyskano satysfakcjonujące rezultaty. Potwierdzają to wyniki uzyskane w systemie konkursowym plasujące modele odpowiednio w top 300 oraz top 900 z wynikami punktowymi niewiele odstającymi od najlepszych rezultatów. \\
 
+Dalszym rozwojem algroytmów mogłoby być stworzenie rozkładów gęstości prawdopodobieństwa i poszukanie korelacji pomiędzy przestępstwami co pozwoliłoby związać kilka zmiennych i (być może) uprościć model odpowiedzialny za predykcję z 39 zmiennych. Ponadto ciekawym i wartym przetestowania rozwiązaniem mogłoby być faworyzowanie częściej powtarzających się przestępstw a zerowanie prawdopodobieństwa dla tych rzadko występujących. \\
 
 \end{document}
