@@ -1,36 +1,5 @@
 setwd("C:/Users/Wojtek/OneDrive/STUDIA/Eksploracja danych/projekt/sf_crime")
 
-library(lubridate)
-library(dplyr)
-library(plyr)
-library(ggmap)
-library(ggplot2)
-library(readr)
-
-library(rpart)
-library(rattle)
-library(rpart.plot)
-library(RColorBrewer)
-
-map<-get_map(location="sanfrancisco",zoom=12,source="osm")
-
-p <- ggmap(map) +
-  geom_point(data=train, aes(x=X, y=Y, color=factor(PdDistrict)), alpha=0.05) +
-  guides(colour = guide_legend(override.aes = list(alpha=1.0, size=6.0),
-                               title="Posterunki policji")) +
-  scale_colour_brewer(type="qual",palette="Paired") + 
-  ggtitle("Mapa dystryktów podzielona ze wzglêdu na posterunki policji") +
-  theme_light(base_size=20) +
-  theme(axis.line=element_blank(),
-        axis.text.x=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks=element_blank(),
-        axis.title.x=element_blank(),
-        axis.title.y=element_blank())
-
-
-ggsave("sf_districts.png", p, width=14, height=10, units="in")
-
 
 
 library(randomForest)
@@ -97,7 +66,10 @@ rpart.train<-function(train,test){
     #i = 'ASSAULT'
     response[i]<- 0
     response[i][response$Cat==i,]<- 1
-    fit<-glm(response[,i]~PdDistrict+X+Y+ XY + XandY +DayOfWeek+Year+Time+ Hour+Month + AddType + DayOfWeekHour + DayOfWeekandHour + DistrictAndTime + DistrictTime,data=train, family = binomial)
+    fit<-glm(response[,i] ~ PdDistrict + X + Y + XY + XandY +DayOfWeek+Year+Time+ Hour+Month + 
+             AddType + DayOfWeekHour + DayOfWeekandHour + DistrictAndTime + DistrictTime,
+             data = train, 
+             family = binomial)
     pred <- predict(fit,test, type = "response")
     submission[i]<-pred
     print(paste0(ncol(submission)/length(crime)*100,'% completed'))
