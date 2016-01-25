@@ -1,0 +1,32 @@
+\begin{figure}[h]
+\centering
+   \begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/set_two_points}
+   \caption{Dwa punkty}
+   \label{fig:two_points} 
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/set_triangle}
+   \caption{Trójkąt}
+   \label{fig:triangle}
+\end{subfigure}
+\\[\baselineskip]
+\begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/set_four_points}
+   \caption{Cztery punkty}
+   \label{fig:four_points}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/set_2x3}
+   \caption{Siatka}
+   \label{fig:grid}
+\end{subfigure}
+\centering
+\caption{Proste zbiory testowe} \label{fig:points_easy}
+\end{figure}
