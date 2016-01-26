@@ -40,14 +40,6 @@ test['Time'] = test['Dates'].dt.hour * 60 + test['Dates'].dt.minute
 train['Corner'] = train['Address'].str.contains('/').map(int)
 test['Corner'] = test['Address'].str.contains('/').map(int)
 
-
-thefts = train[train.Category == 'VEHICLE THEFT'].Corner.value_counts().reindex(range(2))
-print(str(thefts[0] + thefts[1]))
-
-thefts = train[train.Category == 'RECOVERED VEHICLE'].Corner.value_counts().reindex(range(2))
-print(str(thefts[0] + thefts[1]))
-
-
 # Informacja, czy jest w apartamencie
 train['Block'] = train['Address'].str.contains('Block').map(int)
 test['Block'] = test['Address'].str.contains('Block').map(int)

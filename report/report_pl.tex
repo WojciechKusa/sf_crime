@@ -179,11 +179,19 @@ Na podstawie kolumny \textit{Address} (zawierającej przybliżony adres zgłosze
 
 Na rysunku \ref{fig:sf_districts} znajduje się mapa San Francisco z zaznaczpnymi wszystkimi przestępstami podzielonymi ze względu na posterunek odbierający zgłoszenie. \\
 
-\begin{figure}[!h]
-  \centering
-    \includegraphics[width=0.95\textwidth]{images/sf_districts}
-  \caption{Przestępstwa podzielone ze względu na posterunek odbierający zgłoszenie.} \label{fig:sf_districts}
-\end{figure}
+W trakcie analizy zbioru uczącego i przygotowywania wykresów, zauważono kilka ciekawych (chociaż niezwiązanych z tematem pracy) zależności. Niektóre z nich przytoczono poniżej:
+
+\begin{itemize}
+\item Około 80\% przypadków prostytucji miało miejsce na skrzyżowaniach (rysunek \ref{fig:corner}), co więcej -- większość przypadków prosytucji odnotowano w dwóch skupiskach (rysunek \ref{fig:sf_crimes_prostitution});
+\item Włamania są najczęstsze w godzinach 9 - 18 (wtedy, gdy większość osób jest w pracy);
+\item Zatrzymania związane ze spożyciem alkoholu zaczynają się pojawiać od godziny 6 rano i rosną systematycznie aż do północy;
+\item Największa część przypadków agresji domowej notowana jest w godzinach 13 - 15, co może być związane z końcem tzw. pierwszej zmiany;
+\item Kradzieże kieszonkowe mają miejsce głównie w okolicach godzin szczytu (16 - 18);
+\item Samochody są najczęściej kradzione między 18 a 22, zaś odzyskiwane -- w godzinach południowych;
+\item Na 53781 zgłoszonych kradzieży samochodu przypada tylko 3138 odzyskanych pojazdów (około 6\%).
+\end{itemize}
+
+Zauważone zależności pozwalają przypuszczać, że między poszczególnymi atrybutami kolejnych rekordów, zidentyfikować można subtelne powiązania. \\
 
 
 \subsection{Zastosowane deskryptory}
@@ -209,10 +217,48 @@ Dane poddane zostały preprocessingowi celem poprawy brakujących rekordów, a n
 
 \end{itemize}
 
+\begin{figure}[!h]
+\centering
+   \begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/sf_crimes_all}
+   \caption{Mapa San Francisco z naniesionymi 8 najliczniejszymi rodzajami zgłoszeń. W przypadku wyświetlenia wszystkich rodzajów przestępstw, otrzymano w praktyce różnokolorową mozaikę, bardzo trudną do interpretacji.}
+   \label{fig:sf_top8} 
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/sf_districts}
+   \caption{Przestępstwa podzielone ze względu na posterunek odbierający zgłoszenie.} 
+   \label{fig:sf_districts}
+\end{subfigure}
+\\[\baselineskip]
+   \begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/sf_crimes_3}
+   \caption{Wyraźnie widoczna kumulacja przypadków prostytucji w dwóch miejscach w mieście (pozostałe kategorie rozkładają się mniej więcej równomiernie na całej mapie).}
+   \label{fig:sf_crimes_prostitution} 
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\linewidth}
+   \centering
+   \includegraphics[width=\linewidth]{images/sf_crimes_4}
+   \caption{Jeden z nielicznych przypadków korelacji widocznej na podstawie mapy: powiązanie przestępstw narkotykowych z wymuszeniami seksualnymi.}
+   \label{fig:sf_crimes_drugs}
+\end{subfigure}
+\centering
+\caption{Dane treningowe naniesione na mapę San Francisco.}
+\end{figure}
+
 \clearpage
 
 \section{Zastosowane algorytmy}
 \subsection{Lasy losowe - Random Forest}
+
+Algorytm Lasów Losowych (ang. \textit{Random Forest Algorithm, RF}) to metoda klasyfikacji oparta na koncepcji bagging (podział zadania na podzbiory złożone z losowo wybranych rekordów zbioru treningowego, każdy podzbiór analizowany jest przez niezależnego eksperta. Wyniki otrzymuje się w wyniki głosowania ekspertów). Spośród całego zbioru treningowego $D$ wybieranych jest $N$ podzbiorów, każdy o rozmiarze $m$ (gdzie $m$ jest mniejsze od rozmiaru zbioru treningowego). Dla każdego z podzbiorów tworzone jest drzewo decyzyjne (algorytm korzysta więc z $N$ drzew decyzyjnych). Ostateczna wynik klasyfikacji otrzymywany jest poprzez wybranie klasy zwróconej przez największą liczbę drzew.\\
+
+Do zalet algorytmu zaliczyć można jego skalowalność (w miarę dostępności pamięci operacyjnej), małe prawdopodobieństwo przeuczenia oraz prostotę implementacji. W programie wykorzystano implementację algorytmu dostępną w bibliotece sklearn.
+
 
 \subsection{Generalized Linear Model}
 
@@ -225,6 +271,21 @@ Do klasyfikacji przestępstw wybrano dwumianowy rozkład błędu liczący iloś�
 Kody źródłowe zaimplementowanych modeli znajdują się w repozytorium on-line pod adresem \url{www.github.com/WojciechKusa/sf_crime}. 
 
 \subsection{Lasy losowe - Random Forest}
+
+Model wykorzystujący algorytm Lasów Losowych zaimplementowany został w języku programowania Python z wykorzystaniem biblitek pandas, sklearn oraz seaborn (do wizualizacji). Ze względu na ograniczone zasoby sprzętowe (program uruchamiany był na komputerze z 8Gb pamięci RAM), liczność lasu została ustalona na poziomie 52 drzew. Większa liczba drzew zapewne pozwoliłaby na osiągnięcie lepszego wyniku (choć wątpliwe, by była to poprawa rzędu większego niż 0.1). W modelu uwzględniono następujące zmienne:
+
+\begin{itemize}
+\item $PdDistrict$
+\item $X $
+\item $Y $
+\item $DayOfWeek$
+\item $Dates.Year $
+\item $Dates.Month $
+\item $Dates.Hours $
+\item $Dates.Hours \cdot 60 + Dates.Minutes$ 
+\item $Block $ -- informacja (0/1) czy wydarzenie miało miejsce w bloku
+\item $Corner $ -- informacja (0/1) czy wydarzenie miało miejsce na skrzyżowaniu
+\end{itemize}
 
 \subsection{Generalized Linear Model}
 
@@ -262,8 +323,12 @@ W przypadku zastosowania modelu GLM uzyskany wynik to 2.51443 punkta co na dzie�
 
 \section{Podsumowanie}
 
-Dla zastosowanych modeli GLM i RF uzyskano satysfakcjonujące rezultaty. Potwierdzają to wyniki uzyskane w systemie konkursowym plasujące modele odpowiednio w top 300 oraz top 900 z wynikami punktowymi niewiele odstającymi od najlepszych rezultatów. \\
+Zadanie \textit{San Francisco Crime Classification} nie należy do łatwych -- już sama analiza mapy \ref{fig:sf_top8} pozwala stwierdzić, że już dla 8 najczęściej raportowanych incydentów operowanie na danych czasoprzestrzennych jest trudne. Wyniki pierwszych 100 zawodników dzielą dziesiąte części punktów, co świadczy o dużej i wyrównanej rywalizacji. Konkurs uruchomiony został 2 czerwca 2015 roku, co oznacza że zespoły biorące w nim udział miały ponad pół roku na dopracowanie swoich rozwiązań. \\
 
-Dalszym rozwojem algroytmów mogłoby być stworzenie rozkładów gęstości prawdopodobieństwa i poszukanie korelacji pomiędzy przestępstwami co pozwoliłoby związać kilka zmiennych i (być może) uprościć model odpowiedzialny za predykcję z 39 zmiennych. Ponadto ciekawym i wartym przetestowania rozwiązaniem mogłoby być faworyzowanie częściej powtarzających się przestępstw a zerowanie prawdopodobieństwa dla tych rzadko występujących. \\
+W tym kontekście, dla zastosowanych modeli GLM i RF uzyskano satysfakcjonujące rezultaty. Potwierdzają to wyniki w systemie konkursowym plasujące modele odpowiednio w top 300 oraz top 900 z wynikami punktowymi niewiele odstającymi od najlepszych rezultatów. \\
+
+Dalszym rozwojem algorytmów mogłoby być stworzenie rozkładów gęstości prawdopodobieństwa i poszukanie korelacji pomiędzy przestępstwami co pozwoliłoby związać kilka zmiennych i (być może) uprościć model odpowiedzialny za predykcję z 39 zmiennych. Ponadto ciekawym i wartym przetestowania rozwiązaniem mogłoby być faworyzowanie częściej powtarzających się przestępstw a zerowanie prawdopodobieństwa dla tych rzadko występujących. \\
+
+W przypadku rozwiązania napisanego w Pythonie, warto byłoby sprawdzić zachowanie algorytmu dla lasu złożonego z większej liczby drzew (np. 500 zamiast używanych 52). \\
 
 \end{document}
